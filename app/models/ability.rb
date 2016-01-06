@@ -9,15 +9,19 @@ class Ability
 
     if user.role? :admin
         can :manage, :all
-    elsif user.role? :author
-        # can :read, [Article, Comment]
-        can :read, Article
-        can :create, Article
-        can :modify, Article do |article|
-            article.user == user
-        end
     else
-        can :read, Article
+      can :read, [Article, Comment]
+      can :create, Comment
+      can :modify, Comment do |comment|
+        comment.user == user
+      end
+    end
+
+    if user.role? :author
+      can :create, Article
+      can :modify, Article do |article|
+        article.user == user
+      end
     end
 
     # Define abilities for the passed in user here. For example:
