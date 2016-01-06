@@ -1,0 +1,11 @@
+<h2>New Comment for <%= @article.title %></h2>
+
+<%= form_for([@article, @article.comments.new]) do |f| %>
+  <p>
+    <%= f.label :comment %>
+    <%= f.text_area :comment %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %> 

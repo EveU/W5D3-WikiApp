@@ -1,25 +1,31 @@
 class CommentsController < ApplicationController
   
-  # before_action :authenticate_user!, except: [:index]
+  before_action :authenticate_user!
   before_action :load_comment, except:[:new, :create]
   load_and_authorize_resource
 
   def new
-    @comment = Comment.new
+    @article = Article.find(params[:article_id])
+    @comment = @article.comments.new
   end
 
   def create
-    current_user.comments.create(comment_params)
-    redirect_to
+    c = current_user.comments.create(comment_params)
+    c.article_id = params[:article_id]
+    c.save
+    redirect_to article_path(params[:article_id])
   end
 
   def show
   end
 
   def edit
+    @comment = Comment.find(params[:id])
   end
 
   def update
+    @comment.update(comment_params)
+    redirect_to article_path(params[:article_id])
   end
 
   def destroy
