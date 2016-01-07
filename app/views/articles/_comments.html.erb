@@ -4,8 +4,10 @@
   <% @article.comments.each do |comment| %>
   <p><%= comment.comment %></p>
   <p>Comment left by: <%= comment.user.name %></p>
+  <% if can? :modify, comment %>
   <%= link_to 'Edit Comment', edit_article_comment_path(@article, comment) %>
-  <br>
+  <% end %>
+  <hr>
   <% end %>
 <% else %>
   <p>No comments have been left yet.</p>
